@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "../axiosConfig";
 import { useState, useEffect } from "react";
 
 const Followersing = ({ user, followers, following, onClose }) => {
@@ -10,7 +10,7 @@ const Followersing = ({ user, followers, following, onClose }) => {
       const namesMap = {};
       await Promise.all(ids.map(async (id) => {
         try {
-          const res = await axios.get(`/api/user/${id}`);
+          const res = await axiosInstance.get(`/api/user/${id}`);
           namesMap[id] = res.data.name;
         } catch {
           namesMap[id] = "Unknown";

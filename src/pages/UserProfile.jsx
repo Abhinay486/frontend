@@ -1,10 +1,10 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { UserData } from "../context/UserContext";
 import Followersing from "./Followersing";
 import { PinData } from "../context/PinContext";
+import axiosInstance from "../axiosConfig";
 
 const UserProfile = ({ user: loggedInUser }) => {
   const { id } = useParams();
@@ -21,7 +21,7 @@ useEffect(() => {
     const fetchUser = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(`/api/user/${id}`);
+        const { data } = await axiosInstance.get(`/api/user/${id}`);
         setUser(data);
         setFollowed(data?.followers?.includes(loggedInUser?._id) || false);
       } catch (err) {

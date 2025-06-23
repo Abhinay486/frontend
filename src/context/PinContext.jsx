@@ -26,7 +26,7 @@ export const PinProvider = ({ children }) => {
   async function fetchPin(id) {
     setLoading(true);
     try {
-      const { data } = await axios.get("/api/pin/" + id);
+      const { data } = await axiosInstance.get("/api/pin/" + id);
 
       setPin(data);
       setLoading(false);
@@ -38,7 +38,7 @@ export const PinProvider = ({ children }) => {
 
   async function updatePin(id, title, pin, setEdit) {
     try {
-      const { data } = await axios.put("/api/pin/" + id, { title, pin });
+      const { data } = await axiosInstance.put("/api/pin/" + id, { title, pin });
       toast.success(data.message);
       fetchPin(id);
       setEdit(false);
@@ -49,7 +49,7 @@ export const PinProvider = ({ children }) => {
 
   async function addComment(id, comment, setComment) {
     try {
-      const { data } = await axios.post("/api/pin/comment/" + id, { comment });
+      const { data } = await axiosInstance.post("/api/pin/comment/" + id, { comment });
       toast.success(data.message);
       fetchPin(id);
       setComment("");
@@ -60,7 +60,7 @@ export const PinProvider = ({ children }) => {
 
   async function deleteComment(id, commentId) {
     try {
-      const { data } = await axios.delete(
+      const { data } = await axiosInstance.delete(
         `/api/pin/comment/${id}?commentId=${commentId}`
       );
       toast.success(data.message);
@@ -73,7 +73,7 @@ export const PinProvider = ({ children }) => {
   async function deletePin(id, navigate) {
     setLoading(true);
     try {
-      const { data } = await axios.delete(`/api/pin/${id}`);
+      const { data } = await axiosInstance.delete(`/api/pin/${id}`);
       toast.success(data.message);
       navigate("/");
       setLoading(false);

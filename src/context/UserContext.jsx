@@ -50,6 +50,7 @@ export const UserProvider = ({ children }) => {
     async function fetchUser(){
         try {
             const {data} = await axiosInstance.get("/api/user/me");
+
             setUser(data);
             setIsAuth(true);
             setLoading(false);
@@ -61,10 +62,12 @@ export const UserProvider = ({ children }) => {
     async function followUser(id, fetchUser){
         try {
             const {data} = await axiosInstance.post("/api/user/follow/" + id);
+
             toast.success(data.message);
             fetchUser();
         } catch (error) {
             toast.error(error.response.data.message);
+
         }
     }
     useEffect(() => {

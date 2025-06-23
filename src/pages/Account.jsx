@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { logOut } from "../../../backend/controllers/userControllers";
 import { FaUserCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import axios from "axios";
+import axiosInstance from "../axiosConfig";
 import { UserData } from "../context/UserContext";
 import Followersing from "./Followersing";
 
@@ -13,7 +14,7 @@ const Account = ({ user }) => {
     const {setIsAuth, setUser} = UserData();
   const logOutHand = async() => {
     try {
-        const {data} = await axios.get("api/user/logout");
+        const {data} = await axiosInstance.get("/api/user/logout");
         toast.success(data.message);
         navigate("/login");
         setIsAuth(false);
