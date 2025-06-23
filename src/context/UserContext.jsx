@@ -1,7 +1,7 @@
 import React, { Children, useContext, useEffect, useState } from "react";
 import { createContext } from "react";
 import toast, {Toaster} from 'react-hot-toast';
-import axios from 'axios';
+import axiosInstance from '../axiosConfig';
 import { PinData } from "./PinContext";
 
 
@@ -16,7 +16,7 @@ export const UserProvider = ({ children }) => {
     async function registerUser(name, email, password, navigate, fetchPins ) {
         setBtnLoading(true);
         try {
-            const data = await axios.post("/api/user/register/", {name, email, password});
+            const { data } = await axiosInstance.post("/api/user/register/", {name, email, password});
             console.log(data)
             setUser(data.user);
             setIsAuth(true);
@@ -33,7 +33,7 @@ export const UserProvider = ({ children }) => {
     async function loginUser(email, password, navigate, fetchPins) {
         setBtnLoading(true);
         try {
-            const data = await axios.post("/api/user/login/", {email, password});
+            const { data } = await axiosInstance.post("/api/user/login/", {email, password});
             console.log(data)
             setUser(data.user);
             setIsAuth(true);
@@ -49,8 +49,7 @@ export const UserProvider = ({ children }) => {
     const [loading, setLoading] = useState(true)
     async function fetchUser(){
         try {
-            const {data} = await axios.get("/api/user/me");
-
+            const {data} = await axiosInstance.get("/api/user/me");
             setUser(data);
             setIsAuth(true);
             setLoading(false);
@@ -61,13 +60,11 @@ export const UserProvider = ({ children }) => {
     }
     async function followUser(id, fetchUser){
         try {
-            const {data} = await axios.post("/api/user/follow/" + id);
-
+            const {data} = await axiosInstance.post("/api/user/follow/" + id);
             toast.success(data.message);
             fetchUser();
         } catch (error) {
             toast.error(error.response.data.message);
-
         }
     }
     useEffect(() => {
